@@ -1,0 +1,37 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Secure.login
+POST     /inscription  			 				Application.Inscription
+POST     /connect/                              Users.index
+GET     /connect/								Users.index
+
+POST     /addMovie/                             Movies.createMovie
+GET     /addMovie/								Movies.showCreateMovie
+
+GET		/search/{keywords}						Application.search
+POST	/search/								Application.search
+
+
+GET		/myCriticals/							Criticals.myCriticals
+GET		/myNotes/							    Notes.myNotes
+GET	 	/showCritical/{idCritical}				Application.showCritical
+GET		/deleteCritical							Criticals.delete
+GET		/deleteNoteMovie						Notes.deleteNoteMovie
+GET		/deleteNoteCritical						Notes.deleteNoteCritical
+GET		/updateMovie/{movie}					Movies.update
+GET		/topFilms/								Application.topFilms
+GET		/topCritiques/							Application.topCritiques
+GET		/topUsers/								Application.topUsers
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

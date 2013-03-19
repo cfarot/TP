@@ -1,0 +1,69 @@
+#{extends 'main.html' /}
+#{set title:'Mise à jour' /}                  
+
+#{ifnot mvie} 
+    Il n'y a pas de film passé en paramètre.
+    <!-- Proposer la liste des films à mettre à jour -->
+#{/ifnot}  
+#{else}
+	<div id="login">
+	<h1> Mise à jour </h1>
+	#{form @Movies.updateMovie()}
+	
+   	<p>
+        <label for="title">Titre :</label>
+        <input type="text" name="Title" id="Title" value="${mvie.Title}"/>
+        #{if errors.forKey('Title')}
+			<span class="error">${errors.forKey('Title')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="synopsis">Synopsis :</label>
+        <textarea name="Synopsis" id="Synopsis" value="" cols="100" rows="5">${mvie.Synopsis}</textarea>
+         #{if errors.forKey('Synopsis')}
+			<span class="error">${errors.forKey('Synopsis')}</span>
+		#{/if}
+    </p>
+    <p>
+        <label for="date">Date de sortie :</label>
+        <input type="date" name="date" id="date" value="${mvie.Date.format('yyyy-MM-dd')}"/>
+         #{if errors.forKey('date')}
+			<span class="error">${errors.forKey('date')}</span>
+		#{/if}
+    </p>
+    <p>
+        <label for="NameFirstName">Nom et Prénom de l'acteur principal :</label>
+        <input type="text" name="ActorName" id="ActorName" value="${mvie.Actor.Name}"/>
+        #{if errors.forKey('ActorName')}
+			<span class="error">${errors.forKey('ActorName')}</span>
+		#{/if}
+        <input type="text" name="ActorFirstName" id="ActorFirstName" value="${mvie.Actor.Firstname}"/>
+        #{if errors.forKey('ActorFirstName')}
+			<span class="error">${errors.forKey('ActorFirstName')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="country">Pays :</label>
+        <input type="text" name="country" id="country" value="${mvie.Country}"/>
+         #{if errors.forKey('country')}
+			<span class="error">${errors.forKey('country')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="Producer">Nom et Prénom du Producteur :</label>
+        <input type="text" name="ProducerName" id="ProducerName" value="${mvie.Producer.Name}"/>
+         #{if errors.forKey('ProducerName')}
+			<span class="error">${errors.forKey('ProducerName')}</span>
+		#{/if}
+        <input type="text" name="ProducerFirstName" id="ProducerFirstName" value="${mvie.Producer.Firstname}"/>
+         #{if errors.forKey('"ProducerFirstName')}
+			<span class="error">${errors.forKey('"ProducerFirstName')}</span>
+		#{/if}
+		<input type="hidden" name="idMovie" id="idMovie" value="${mvie.id}" />
+    </p>
+	<p>
+	    <input type="submit" value="Mise à jour" />
+	</p>
+#{/form} 
+</div>	
+#{/else}  

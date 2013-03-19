@@ -1,0 +1,80 @@
+#{extends 'main.html' /}
+#{set title:'Recherche' /}                   
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+     
+#{ifnot movie} 
+    Il n'y a pas de résultat pour votre recherche.
+#{/ifnot}  
+#{else}   
+		<br /><br /><h1>${movie.Title}</h1><br />
+	#{if session.contains("username") }
+		<a href="@{Movies.update(movie)}"> <input type="submit" value="Modifier la fiche"/></a>
+	#{/if}
+	<div id="synopsis"><span id="titre">Synopsis:</span> ${movie.Synopsis}</div><br />
+    <div id="date"><span id="titre">Date de sortie:</span> ${movie.Date.format('dd MMM yy')}</div><br />
+    <div id="actor"><span id="titre">Acteur principal:</span> ${movie.Actor}</div><br />
+    <div id="producer"><span id="titre">Producteur principal:</span>  ${movie.Producer}</div><br />
+   <div id="country"><span id="titre">Pays d'origine:</span>  ${movie.Country}</div><br />
+    #{if movie.moyenneNote() != 21}
+   		<div id="noteMoy"><span id="titre">Note Moyenne:</span>  ${movie.moyenneNote()} </div><br />
+    #{/if}
+    #{else}
+    	Ce film n'a pas encore été noté.<br />
+    #{/else}
+
+#{if session.contains("username") }  
+   #{if note}
+   		 <p> Votre note : ${note.Note} /20</p> 	<br />  	
+    #{/if}
+    #{else}
+    	#{form @Notes.addNoteMovie()}
+    	<p>
+        	Note(/20):<input type="number" name="note" value="${params.note}"/>
+        </p>
+   			<input type="hidden" name="movie" id="movie" value="${movie}" />
+   			<p>
+	    		<input type="submit" value="Noter" />
+			</p>
+   		#{/form}
+    #{/else}
+   
+  <p> Votre critique : </p> 
+   #{if critical}
+   		 <p>Titre: ${critical.Title} </p>
+   		 <p>Contenu: ${critical.Content.escape().nl2br()} </p> 	  	
+    #{/if}
+    #{else}
+    	#{form @Criticals.addCritical()}
+    	<p>
+    		<label for="title">Titre :</label>
+        	<input type="text" name="title" value="${params.title}"/>
+        </p>
+        <p>
+   			<textarea name="content" id="content" value="" cols="100" rows="5"> </textarea>
+   		</p>
+   			<input type="hidden" name="movie" id="movie" value="${movie}" />
+   			<p>
+	    		<input type="submit" value="Ajouter la critique" />
+			</p>
+   		#{/form}
+    #{/else}
+   #{/if}
+     #{if criticals}
+     <h1> Critiques : </h1>
+     	   #{list items:criticals, as:'crtl'}
+                <div class="criticals-metadata">
+                	<a href="@{Application.showCritical(crtl.id)}"> ${crtl.Title} </a>
+                    <span class="critical-author">
+                    	Posté par ${crtl.User.Firstname},
+                    </span>
+                    <span class="critical-date">
+                        le ${crtl.Date.format('dd MMM yy')}
+                    </span>
+                </div>
+                <br />
+        #{/list}	  	
+    #{/if}
+#{/else}

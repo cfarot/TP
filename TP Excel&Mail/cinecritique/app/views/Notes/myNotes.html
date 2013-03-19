@@ -1,0 +1,35 @@
+#{extends 'main.html' /}
+#{set title:'Mes critiques' /}                    
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+<h1> Vos notes sur des films :</h1>
+#{ifnot notesM} 
+	Vous n'avez pas encore noté de films.<br /><br />
+#{/ifnot}  
+#{else}
+	 #{list items:notesM, as:'noteM'}
+            <div class="notes">
+				<span class="note-movie"><a href="@{Application.search(noteM.Movie)}"> ${noteM.Movie}:</a></span> 
+                  ${noteM.Note}/20
+            </div>
+             <a href="@{Notes.deleteNoteMovie(noteM.id)}"> <input type="submit" value="Supprimer" /></a>
+             <br /><br />
+        #{/list}
+#{/else}
+
+<h1> Vos notes sur des critiques :</h1>
+#{ifnot notesC} 
+	Vous n'avez pas encore noté de critiques.<br /><br />
+#{/ifnot}  
+#{else}
+	 #{list items:notesC, as:'noteC'}
+            <div class="notes">
+            	<span class="note-critique"> <a href="@{Application.showCritical(noteC.Critical.id)}"> ${noteC.Critical.Title}:</a></span> 
+                  ${noteC.Note}/20
+            </div>
+             <a href="@{Notes.deleteNoteCritical(noteC.id)}"> <input type="submit" value="Supprimer"/></a>
+             <br /><br />
+        #{/list}
+#{/else}

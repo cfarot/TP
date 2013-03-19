@@ -1,0 +1,103 @@
+#{extends 'Secure/layout.html' /}
+<br /> <br />
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+<div id="login">
+
+	<h1>Connexion</h1>
+
+	#{form @Secure.authenticate()} 
+
+	<p id="username-field">
+		<label for="username">&{'secure.username'}</label> <input type="text"
+			name="username" id="username" value="${flash.username}" />
+	</p>
+	<p id="password-field">
+		<label for="password">&{'secure.password'}</label> <input
+			type="password" name="password" id="password" value="" />
+	</p>
+	
+	<p id="remember-field">
+		<input type="checkbox" name="remember" id="remember" value="true"
+			${flash.remember ? 'checked="true" ' : ''} /> &{'secure.remember'}
+	</p>
+	<p id="signin-field">
+		<input type="submit" id="signin" value="&{'secure.signin'}" />
+	</p>
+	#{/form}
+</div>
+<div id="contenu">
+	Bienvenue !<br /> <br />
+    Une fois inscrit, ce site vous permet de donner votre avis sur les films que vous avez vu en déposant des critiques.
+	Vous pouvez créer la fiche d'un film si celle-ci n'existe pas encore sur le site afin de poser une critique.
+	Il y a aussi la possibilté de noter les critiques et les films.	<br />
+	En résumé, c'est vous qui faite la météo du cinéma ! 
+	<br /><br />
+	Bonne Visite !
+</div>
+	
+<div id="login">	
+<h1>Inscription</h1>
+
+#{form @Application.Inscription()}
+	<p>
+		
+        <label for="name">Nom :</label>
+        <input type="text" name="name" id="name" value="${params.name}"/>
+		#{if errors.forKey('name')}
+			<span class="error">${errors.forKey('name')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="firstname">Prénom :</label>
+        <input type="text" name="firstname" id="firstname" value="${params.firstname}"/>
+		#{if errors.forKey('firstname')}
+			<span class="error">${errors.forKey('firstname')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="email">Email :</label>
+        <input type="text" name="email" id="email" value="${params.email}"/>
+		#{if errors.forKey('email')}
+			<span class="error">${errors.forKey('email')}</span>
+		#{/if}
+    </p>
+    <p>
+        <label for="date">Date de naissance :</label>
+        <input type="date" name="date" id="date" value="${params.date}"/>
+		#{if errors.forKey('date')}
+			<span class="error">${errors.forKey('date')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="password">Mot de passe :</label>
+        <input type="password" name="password" id="password" value="${params.password}"/>
+		#{if errors.forKey('password')}
+			<span class="error">${errors.forKey('password')}</span>
+		#{/if}
+    </p>
+	<p>
+        <label for="confirmePassword">Confirmation mot de passe :</label>
+        <input type="password" name="confirmePassword" id="confirmePassword" value="${params.confirmePasword}"/>
+		#{if errors.forKey('confirmePassword')}
+			<span class="error">${errors.forKey('confirmePassword')}</span>
+		#{/if}
+    </p>
+	<p>
+	    <label for="code">Veuillez entrer le code ci-dessous :</label><br />
+	    <img src="@{Security.captcha(randomID)}" />
+	    <br />
+	    <input type="text" name="code" id="code" size="18" value="" />
+		#{if errors.forKey('code')}
+			<span class="error">${errors.forKey('code')}</span>
+		#{/if}
+	    <input type="hidden" name="randomID" value="${randomID}" /> 
+	</p><br />
+	<p>
+	    <input type="submit" id="signin" value="Inscription" /><br />
+	</p>
+	<label> Tous les champs sont obligatoires</label>
+#{/form}
+</div>

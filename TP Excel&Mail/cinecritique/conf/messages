@@ -1,0 +1,9 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+
+secure.title=Ciné Critiques
+secure.username=Email:
+secure.password=Mot de passe:
+secure.signin=Connexion
+secure.remember=Se souvenir de moi
+secure.logout=Vous êtes déconnecté à bientôt !

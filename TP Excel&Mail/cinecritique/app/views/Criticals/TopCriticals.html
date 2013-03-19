@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set title:'Top Critiques' /}
+
+#{ifnot topTen} 
+	Il n'y a pas de critiques notés pour l'instant.<br />
+#{/ifnot}  
+#{else}
+	<h1> Les critiques les mieux notées</h1><br />
+	 #{list items:topTen, as:'critical'}
+            <div class="top">
+			 #{if session.contains("username") && critical.User.Email == session.get("username")} 
+				<span class="top-critique"> <span id="Number">${critical_index}.</span> <a href="@{Application.showCritical(critical.id)}"> ${critical.Title} </a>, posté par vous. Une note moyenne de ${critical.moyenneNote()} /20 </span> 
+			 #{/if}
+			 #{else}
+				<span class="top-critique"> <span id="Number">${critical_index}.</span> <a href="@{Application.showCritical(critical.id)}"> ${critical.Title} </a>, posté par ${critical.User.Firstname}. Une note moyenne de ${critical.moyenneNote()} /20 </span> 
+			 #{/else}
+			</div>
+             <br />
+        #{/list}
+#{/else}
