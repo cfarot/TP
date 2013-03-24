@@ -1,7 +1,9 @@
 logs
+eclipse
 project/project
 project/target
 target
+lib
 tmp
 .history
 dist
