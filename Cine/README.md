@@ -7,8 +7,9 @@ Et création des fiches des films à l'affiche en récupérant les données sur 
 1. Installer play 1.2.5
 
 2. Ajout de la librairie jsoup dans l'installation de play:
+
    Placez vous dans le dossier cinecritique et lancer la commande :
-	  play deps --verbose
+	play deps --verbose
 	  
    puis revenez dans le dossier au-dessus: 
 	  cd .. 
