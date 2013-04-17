@@ -21,10 +21,10 @@ Et création des fiches des films à l'affiche en récupérant les données sur 
 		ligne 59: à modifier si vous utiliser un autre serveur smtp
 		ligne 60: identifiant et mot de passe de votre compte mail.
 
-5.(facultatif) Configuration de la base de donnée:
+5. (facultatif) Configuration de la base de donnée:
 	Dans le fichier : cinecritique\conf\application.conf 
-	actuellement (ligne 85): db=mem (base de données en mémoire)	
-
+	actuellement (ligne 85): db=mem (base de données en mémoire)
+	
 6. Lancer la commande: play run cinecritique
 
 7. Dans le navigateur: localhost:9000
