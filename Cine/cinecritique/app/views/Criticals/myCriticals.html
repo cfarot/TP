@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title:'Mes critiques' /}
+                    
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+<h1> Vos critiques:</h1> <br/>
+#{ifnot criticals} 
+	Vous n'avez pas encore posté de critiques.
+#{/ifnot}  
+#{else}
+		 #{if user.moyenneGlobale() != 21}
+			   <div class="moyenneG"><span id="titre">Votre note(/20) globale:</span>  ${user.moyenneGlobale()} </div>
+		#{/if}
+		#{else}
+				Vos critiques n'ont pas encore été noté donc vous n'avez pas de note globale.
+		#{/else}
+			<br /><br />	
+	 #{list items:criticals, as:'crtl'}
+            <div class="criticals">
+                <div class="criticals-metadata">
+					<span class="critical-movie">${crtl.Movie},</span></br>
+                    <span class="critical-date">Posté le ${crtl.Date.format('dd MMM yy')},</span></br>
+					<span class="critical-title">
+                       <span id="titre"> Titre:</span> ${crtl.Title}
+                    </span></br>
+                </div>
+                <div class="criticals-content">
+                  <span id="titre">La critique:</span> ${crtl.Content.escape().nl2br()}
+                </div>
+                #{if crtl.moyenneNote() != 21}
+			   		<div class="moyenne"><span id="titre"> Note moyenne(/20) attribuée à la critique:</span> ${crtl.moyenneNote()} </div>
+				#{/if}
+				#{else}
+					 Cette critique n'a pas encore été noté.
+				#{/else}
+                 <a href="@{Criticals.delete(crtl.id)}"> <input type="submit" value="Supprimer" /> </a>
+            </div><br />
+        #{/list}
+#{/else}

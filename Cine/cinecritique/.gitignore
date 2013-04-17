@@ -1,0 +1,8 @@
+bin
+eclipse
+lib
+tmp
+modules
+.classpath
+.project
+.settings

@@ -1,0 +1,49 @@
+ <div id="header">
+ <h1 id="logo">
+   <span id="cine">Ciné</span> <span id="critique">Critiques</span>
+</h1>
+<br />
+
+#{if session.contains("username") }
+<div id="navigation">
+<ul id="adminMenu">
+	<li><a href="@{Secure.login()}">Accueil</a></li>
+	<li><a href="/topFilms/">Top Films</a></li>
+	<li><a href="/topCritiques/">Top Critiques</a></li>
+	<li><a href="/topUsers/">Top Utilisateurs</a></li>
+	<li><a href="/filmsAffiche/">Films à l'affiche</a></li>
+</ul>
+
+</div>
+<div id="sub-navigation">
+	<ul id="adminMenu">
+		<li><a href="/myCriticals/">Mes critiques</a></li>
+		<li><a href="/myNotes/">Mes notes</a></li>
+		<li><a href="/addMovie/">Ajouter un film</a></li>
+		<li><a href="@{Secure.logout()}">Déconnexion</a></li>
+	</ul>
+	<div id="search">
+	#{form @Application.search()} <input name="keywords" id="keywords"
+		maxlength="128" value="${params.keywords}" type="text" autofocus /> 
+		<input type="submit" value="Recherche Film" class="search-button"/> #{/form}
+	</div>
+</div>
+
+#{/if} #{else}
+<div id="navigation"></div>
+<div id="sub-navigation">
+	<ul id="adminMenu">
+		<li><a href="@{Secure.login()}">Accueil</a></li>
+		<li><a href="/topFilms/">Top Films</a></li>
+		<li><a href="/topCritiques/">Top Critiques</a></li>
+		<li><a href="/topUsers/">Top Utilisateurs</a></li>
+		<li><a href="/filmsAffiche/">Films à l'affiche</a></li>
+	</ul>
+	<div id="search">
+	#{form @Application.search()} <input name="keywords" id="keywords"
+		maxlength="128" value="${params.keywords}" type="text" autofocus /> 
+		<input type="submit" value="Recherche Film" class="search-button"/> #{/form}
+	</div>
+</div>
+#{/else}
+</div>
