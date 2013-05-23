@@ -1,0 +1,25 @@
+#{extends 'main.html' /}
+#{set title:'Top Utilisateurs' /}
+
+#{ifnot topTen} 
+	Il n'y a pas d'utilisateurs actifs pour le moment.<br />
+#{/ifnot}  
+#{else}
+	<h1> Les utilisateurs les plus actifs</h1>(1 critique = 2points, 1 note = 1 point)<br /><br />
+	 #{list items:topTen, as:'user'}
+            <div class="top">
+            	#{if session.contains("username") && user.Email == session.get("username") && user_index == 1} 
+					<span class="top-film"> <span id="Number">${user_index}.</span> Vous êtes l'utilisateur le plus actif du site avec ${user.nbPoint()} point(s) !</span>
+				 #{/if}
+				 #{else}
+					#{if session.contains("username") && user.Email == session.get("username")}
+						<span class="top-film"> <span id="Number">${user_index}.</span> Vous avec à votre actif  ${user.nbPoint()} point(s) !</span>
+					#{/if}
+					#{else}
+						<span class="top-film"> <span id="Number">${user_index}.</span> ${user.Firstname} ${user.Name} avec à son actif  ${user.nbPoint()} point(s) !</span>
+					#{/else}
+				#{/else}
+            </div>
+             <br />
+        #{/list}
+#{/else}

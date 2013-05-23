@@ -1,0 +1,28 @@
+div.list_item_container {
+    height: 90px;
+    padding: 5px;
+}
+
+div.image{
+    width: 90px;
+    height: 80px;
+    float: left;
+}
+
+#pic{
+    width: 70px;
+    height: 90px;
+}
+div.description {
+    font-style: italic;
+    font-size: 0.8em;
+    color: gray;
+}
+
+.ui-helper-hidden-accessible { 
+	display:none;
+}
+
+li{	
+	list-style-type:none;
+}

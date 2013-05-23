@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">        
+	 	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/style.css'}"> 
+		<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/style-auto-complete.css'}"/> 
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favico.jpg'}"/>
+        
+        <script src="@{'/public/javascripts/jquery-1.9.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/jquery-ui.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/autocomplete-value.js'}" type="text/javascript" charset="${_response_encoding}"></script>    
+    </head>
+    <body>
+	    <div id="shell">
+	    	#{MenuAndSearch /}
+			<br /> <br />  
+	        #{doLayout /}
+	        #{Footer /}
+	     </div>
+    </body>
+</html>

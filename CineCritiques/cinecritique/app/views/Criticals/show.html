@@ -1,0 +1,71 @@
+#{extends 'main.html' /}
+#{set title:'Critique' /}                   
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+#{ifnot crit} 
+   <br /><br /> Cette critique n'existe pas.
+#{/ifnot}  
+#{else}
+
+	  <div class="criticals"> 
+                <div class="criticals-metadata">
+                <br /><br /> <a href="@{Application.search(crit.Movie)}"><h1> ${crit.Movie}</h1></a><br />
+                	<h2>${crit.Title}</h2>
+              
+    #{if session.contains("username") }
+       #{if crit.User.Email != session.get("username")} 
+                    <span class="critical-author">
+                    	Posté par ${crit.User.Firstname},
+                    </span>
+                   
+      #{/if}
+      #{else}
+       <span class="critical-author">
+                    	Posté par vous,
+                    </span>
+      #{/else}
+   #{/if}
+   
+   #{else}
+    	<span class="critical-author">
+                    	Posté par ${crit.User.Firstname},
+                    </span>
+   #{/else}
+   
+    <span class="critical-date">
+                        le ${crit.Date.format('dd/MM/yy')}
+                    </span>
+                </div>
+                </br>
+            <div class="criticals-content">
+                  <span id="titre">La critique:</span> ${crit.Content.escape().nl2br()}
+             </div> <br />
+                	 
+   	#{if crit.moyenneNote() != 21}
+   		<div class="moyenne"> Note moyenne de la critique : ${crit.moyenneNote()} </div>
+	#{/if}
+	#{else}
+		 Cette critique n'a pas encore été noté.
+	#{/else}
+       </div>
+    
+    #{if session.contains("username") && crit.User.Email != session.get("username")}   
+	    #{if note}
+	   		 <p> Votre note : ${note.Note} /20</p> 	  	
+	    #{/if}
+	    #{else}
+	    	#{form @Notes.addNoteCritical()}
+	    	<p>
+	        	Note(/20):<input type="number" name="note" value="${params.note}"/>
+	        </p>
+	   			<input type="hidden" name="critique" id="critique" value="${crit}" />
+	   			<p>
+		    		<input type="submit" value="Noter" />
+				</p>
+	   		#{/form}
+	    #{/else}
+     #{/if}     
+#{/else}

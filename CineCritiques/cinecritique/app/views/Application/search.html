@@ -1,0 +1,172 @@
+#{extends 'main.html' /}
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+     
+#{ifnot movie} 
+	#{set title:'Recherche' /}
+    #{if movieList}
+		 <h1> RÃ©sultats pour "${params.keywords}": </h1><br />
+		 <table>
+			<tr>
+	     	   #{list items:movieList, as:'mvL'}
+		     	   <td>
+		              <a href="@{Application.search(mvL.Title)}"><img src="${mvL.Image}" title="${mvL.Title}"/></a>
+		           </td>
+		           <td><div><span>
+		           		<a href="@{Application.search(mvL.Title)}"> ${mvL.Title}</a><br />
+		            	de ${mvL.Director}<br>
+		            	avec ${mvL.Actor}
+		           </span></div></td>
+	            #{if mvL_index %3 == 0}
+	            	</tr><tr>
+				#{/if}     
+	        #{/list}
+	     	</tr>
+		</table>	  
+	#{/if}
+	#{else}
+    	<h1>Il n'y a pas de rÃ©sultat Ã  votre recherche.</h1><br />
+    	#{if session.contains("username") }
+    		<a href="@{Movies.ShowCreateMovie(params.keywords)}">Ajouter "${params.keywords}" Ã  CinÃ©Critiques.</a>
+    	#{/if}
+    #{/else}
+#{/ifnot}    
+#{else} 
+
+<script type="text/javascript">
+$(document).ready(function(){ // Quand le document est complètement chargé
+	 
+	var load = false; // aucun chargement de commentaire n'est en cours
+ 
+	/* la fonction offset permet de récupérer la valeur X et Y d'un élément
+	dans une page. Ici on récupère la position du dernier div qui 
+	a pour classe : ".criticals" */
+	var offset = $('.criticals:last').offset(); 
+ 
+	$(window).scroll(function(){ // On surveille l'évènement scroll
+ 
+		/* Si l'élément offset est en bas de scroll, si aucun chargement 
+		n'est en cours, si le nombre de commentaire affiché est supérieur 
+		à 3 et si tout les commentaires ne sont pas affichés, alors on 
+		lance la fonction. */
+		if((offset.top-$(window).height() <= $(window).scrollTop()) 
+		&& load==false && ($('.criticals').size()>=3) && 
+		($('.criticals').size()!=${nbCrit})){
+			// la valeur passe à vrai, on va charger
+			load = true;
+ 
+			//On récupère l'id du dernier commentaire affiché
+			var last_id = $('.criticals:last').attr('id');
+ 
+			//On affiche un loader
+			$('.loadmore').show();
+ 
+			//On lance la fonction ajax
+			$.ajax({
+				url: '/loadCriticals/',
+				type: 'get',
+				data: 'last='+last_id+"&idMovie="+${movie.id},
+ 
+				//Succès de la requête
+				success: function(data) {
+ 
+					//On masque le loader
+					$('.loadmore').fadeOut(500);
+					/* On affiche le résultat après
+					la dernière critique */
+					$('.criticals:last').after(data);
+					/* On actualise la valeur offset
+					du dernier commentaire */
+					offset = $('.criticals:last').offset();
+					//On remet la valeur à faux car c'est fini
+					load = false;
+				}
+			});
+		}
+	});
+});
+</script>
+
+	#{set title: movie.Title /}   
+	<br /><br />
+	<h1><img src="${movie.Image}" title="${movie.Title}">     ${movie.Title}</h1><br />
+	<div id="synopsis"><span id="titre">Synopsis:</span> ${movie.Synopsis}</div><br />
+	#{if movie.Date != null}
+		#{if (movie.Date.getYear()+1900) < 2100}
+	    	<div id="date"><span id="titre">Date de sortie:</span> ${movie.Date.format('dd/MM/yy')}</div><br />
+	    #{/if}
+	    #{else}
+	    	<div id="date"><span id="titre">Date de sortie:</span> ${movie.Date.getYear()+1600}</div><br />
+	    #{/else}
+    #{/if}
+    #{else}
+    	<div id="date"><span id="titre">Date de sortie:</span> inconnue</div><br />
+    #{/else}
+    <div id="actor"><span id="titre">Acteur principal:</span> ${movie.Actor}</div><br />
+    <div id="producer"><span id="titre">Producteur principal:</span>  ${movie.Director}</div><br />
+   	<div id="country"><span id="titre">Pays d'origine:</span>  ${movie.Country}</div><br />
+    #{if movie.moyenneNote() != 21}
+   		<div id="noteMoy"><span id="titre">Note Moyenne:</span>  ${movie.moyenneNote()} </div><br />
+    #{/if}
+    #{else}
+    	Ce film n'a pas encore Ã©tÃ© notÃ©.<br />
+    #{/else}
+
+	#{if session.contains("username") }  
+	   #{if note}
+	   		 <p> Votre note : ${note.Note} /20</p> 	<br />  	
+	    #{/if}
+	    #{else}
+	    	#{form @Notes.addNoteMovie()}
+	    	<p>
+	        	Note(/20):<input type="number" name="note" value="${params.note}"/>
+	        </p>
+	   			<input type="hidden" name="movie" id="movie" value="${movie}" />
+	   			<p>
+		    		<input type="submit" value="Noter" />
+				</p>
+	   		#{/form}
+	    #{/else}
+	   
+	  	<p> Votre critique : </p> 
+	  	 #{if critical}
+	   		 <p>Titre: ${critical.Title} </p>
+	   		 <p>Contenu: ${critical.Content.escape().nl2br()} </p> 	  	
+	   	#{/if}
+	   	#{else}
+	    	#{form @Criticals.addCritical()}
+	    	<p>
+	    		<label for="title">Titre :</label>
+	        	<input type="text" name="title" value="${params.title}"/>
+	        </p>
+	        <p>
+	   			<textarea name="content" id="content" value="" cols="100" rows="5"> </textarea>
+	   		</p>
+	   		<input type="hidden" name="movie" id="movie" value="${movie}" />
+	   		<p>
+		    	<input type="submit" value="Ajouter la critique" />
+			</p>
+	   		#{/form}
+	    #{/else}
+	#{/if}
+    #{if criticals}
+     	<h1> Critiques : </h1>
+     	#{list items:criticals, as:'crtl'}
+        	<div class="criticals" id="${crtl.id}">
+            	<a href="@{Application.showCritical(crtl.id)}"> ${crtl.Title} </a>
+                <span class="critical-author">
+                	PostÃ© par ${crtl.User.Firstname} ${crtl.User.Name},
+                </span>
+                <span class="critical-date">
+                    le ${crtl.Date.format('dd/MM/yy')}
+                </span>
+            </div>
+            <br />
+        #{/list}
+        <div class="loadmore" style="display: none;">
+			Chargement en cours...
+		</div>	  	
+    #{/if}
+#{/else}

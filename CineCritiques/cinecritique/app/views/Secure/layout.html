@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Accueil</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}" />
+		<link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/secure.css'}" /> 
+		<link rel="shortcut icon" type="image/png" href="@{'/public/images/favico.jpg'}" />
+		<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/style-auto-complete.css'}" />
+		
+		<script src="@{'/public/javascripts/jquery-1.9.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/javascripts/jquery-ui.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/javascripts/autocomplete-value.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	</head>
+	<body>
+		<div id="shell">
+			#{MenuAndSearch /}
+			#{doLayout /}
+			#{Footer /}
+		</div>
+	</body>
+</html>

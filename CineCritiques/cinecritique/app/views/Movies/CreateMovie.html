@@ -1,0 +1,64 @@
+#{extends 'main.html' /}
+#{set title:'Ajouter Film' /}
+ 
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+<div id="login">
+<h1>Ajouter un film(via AlloCiné)</h1>
+#{form @Movies.resultAlloCine()}
+	<p>
+        <label for="title">Titre :</label>
+        #{if key}
+        <input type="text" name="Title" id="Title" value="${key}"/>
+        #{/if}
+        #{else}
+        <input type="text" name="Title" id="Title" value="${params.Title}"/>
+        #{/else}
+        #{if errors.forKey('Title')}
+			<span class="error">${errors.forKey('Title')}</span>
+		#{/if}
+    </p>
+    <p>
+	    <input type="submit" value="Ajouter" />
+	</p>
+#{/form}      
+</div>
+ 
+<table>
+	<tr>
+	 #{list items:lstMovieRsltAlloCine, as:'film'}
+            <td>
+             #{if film.ExistOnCineCritique}
+            	<a href="@{Application.search(film.Title)}"> <img src="${film.Image}" title="${film.Title}"/></a>
+            #{/if}
+            #{else}
+            	<img src="${film.Image}" title="${film.Title}"/>
+            #{/else}
+            </td>
+            <td><div><span>
+            #{if film.ExistOnCineCritique}
+            	<a href="@{Application.search(film.Title)}"> ${film.Title}</a><br>
+            #{/if}
+            #{else}
+            	${film.Title}<br>
+            #{/else}
+            ${film.Annee}<br>
+            de ${film.director}<br>
+            avec ${film.MainActor}<br>
+            #{if film.ExistOnCineCritique}
+            	Film présent sur Cinécritique.
+            #{/if}
+            #{else}
+            	<a href="@{Movies.AddMvieFromAlloCine(film.Title, film.director, film.MainActor, film.linkAlloCine, film.Annee)}"> <input type="submit" value="Ajouter"/></a>
+            #{/else}
+            </span></div></td>
+            #{if film_index %3 == 0}
+             </tr><tr>
+			#{/if} 
+        #{/list}
+        </tr>
+</table>
+ 
+
