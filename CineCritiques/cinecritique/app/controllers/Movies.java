@@ -169,10 +169,15 @@ public class Movies extends Controller {
 					.connect(
 							"http://www.allocine.fr/recherche/1/?q=" + UrlTitle)
 					.timeout(0).get();
-			return Integer.parseInt(doc.getElementsByClass("colcontent")
-					.first().getElementsByClass("morezone").first()
-					.getElementsByClass("navcenterdata").first().text()
-					.split(" / ")[1]);
+			
+			if(doc.getElementsByClass("colcontent").first().getElementsByClass("morezone").first() != null)
+				return Integer.parseInt(doc.getElementsByClass("colcontent")
+						.first().getElementsByClass("morezone").first()
+						.getElementsByClass("navcenterdata").first().text()
+						.split(" / ")[1]);
+			else
+				return 1;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("probleme jsoup");

@@ -83,40 +83,23 @@ public class MovieTemp {
 			String image = elementImage.select("img").first().absUrl("src");
 
 			Element elementSynop = doc.getElementsByClass("margin_20b").first();
-			String synopsis = elementSynop.select("p").first().text();
+			String synopsis = elementSynop.text();
 
 			Element elementContent = element
-					.getElementsByClass("list_item_p2v").first();
+					.select("table.data_box_table.margin_10b").first();
 			Date date;
-			// modifier récupération de la date : bug encore sur american pie 6 
-			if(elementContent.select("li").first().select("span").size()>2){
-				String d = elementContent.select("li").first().select("span")
-						.get(2).attr("content");
-				
-				//System.out.println(elementContent.select("li").first());
-				if(d.split("-").length == 3){
-				String dateFr = d.split("-")[2] + "/" + d.split("-")[1] + "/"
-						+ d.split("-")[0];
-				date = formater.parse(dateFr);
-				}
-				else{
-					/*String d2 = elementContent.select("li").first().select("strong").first().text();
-					System.out.println(d2);
-					date = formater.parse(d2);
-					System.out.println(date);
-					String dt = elementContent.select("li").first().select("span")
-							.get(2).attr("content");
-					String dateFr = dt.split("-")[2] + "/" + dt.split("-")[1] + "/"
-							+ dt.split("-")[0];*/
-					date = null;
-				}
-			}
-			else{
-				String strDate = "25/05/"+(year + 300);
-				date = formater.parse(strDate);
-			}
+			// modifier récupération de la date
+			String d = elementContent.select("tr").first().select("td").first().select("span").first().select("span").first().getElementsByAttribute("content").attr("content");
 			
-			String country = element.select("li").last().select("span").get(1).text();
+				if(d.split("-").length == 3){
+					String dateFr = d.split("-")[2] + "/" + d.split("-")[1] + "/"
+						+ d.split("-")[0];
+					date = formater.parse(dateFr);
+				}
+				else
+					date = null;
+				
+			String country = elementContent.select("tr").get(4).select("span").get(1).text();
 
 			String directorName = "";
 			String directorFirstName = "";

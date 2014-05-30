@@ -21,7 +21,7 @@ import models.*;
 public class Application extends Controller {
 
 	public static final int AUTOCOMPLETE_MAX = 4;
-	
+
 	public static void Inscription(
 			@MaxSize(64) @MinSize(2) @Required(message = "Le Nom doit être renseigné.") String name,
 			@MaxSize(32) @MinSize(2) @Required(message = "Le Prénom doit être renseigné.") String firstname,
@@ -80,9 +80,9 @@ public class Application extends Controller {
 				nbCrit = Critical.nbCriticalsOnMovie(movie);
 				render("Application/search.html", movie, criticals, nbCrit);
 			}
-		}
-		else{	
-			List<Movie> movieList = Movie.find("Title like ?", "%"+keywords+"%").fetch();
+		} else {
+			List<Movie> movieList = Movie.find("Title like ?",
+					"%" + keywords + "%").fetch();
 			render("Application/search.html", movie, movieList);
 		}
 		render("Application/search.html", movie);
@@ -104,105 +104,73 @@ public class Application extends Controller {
 	// Affiche les 10 films les plus populaire
 	public static void topFilms() {
 		List<Movie> topTen = Movie.getTopTen();
-		if(topTen != null)
+		if (topTen != null)
 			render("Movies/TopFilms.html", topTen);
 		else
 			render("Movies/TopFilms.html");
-		/*List<Movie> allMovies = Movie.findAll();
-		List<Movie> topTen = new ArrayList<Movie>();
-
-		if (allMovies.size() > 0) {
-			// suppression des films non notés
-			for (int j = 0; j < allMovies.size(); j++) {
-				if (allMovies.get(j).moyenneNote() == 21) {
-					allMovies.remove(j);
-					j--;
-				}
-			}
-			// mise en place du top 10
-			if (allMovies.size() > 0) {
-				Collections.sort(allMovies, Collections.reverseOrder());
-				if (allMovies.size() > 10) {
-					for (int i = 0; i < 10; i++) {
-						topTen.add(allMovies.get(i));
-					}
-				} else {
-					topTen = allMovies;
-				}
-				render("Movies/TopFilms.html", topTen);
-			}
-		}
-		render("Movies/TopFilms.html");*/
+		/*
+		 * List<Movie> allMovies = Movie.findAll(); List<Movie> topTen = new
+		 * ArrayList<Movie>();
+		 * 
+		 * if (allMovies.size() > 0) { // suppression des films non notés for
+		 * (int j = 0; j < allMovies.size(); j++) { if
+		 * (allMovies.get(j).moyenneNote() == 21) { allMovies.remove(j); j--; }
+		 * } // mise en place du top 10 if (allMovies.size() > 0) {
+		 * Collections.sort(allMovies, Collections.reverseOrder()); if
+		 * (allMovies.size() > 10) { for (int i = 0; i < 10; i++) {
+		 * topTen.add(allMovies.get(i)); } } else { topTen = allMovies; }
+		 * render("Movies/TopFilms.html", topTen); } }
+		 * render("Movies/TopFilms.html");
+		 */
 	}
 
 	// Affiche les 10 utilisateurs les plus actif sur le site.
 	public static void topUsers() {
 		List<User> topTen = User.getTopTen();
-		if(topTen != null)
+		if (topTen != null)
 			render("Users/TopUsers.html", topTen);
 		else
-			render("Users/TopUsers.html");;
-		/*List<User> allUsers = User.findAll();
-		List<User> topTen = new ArrayList<User>();
-
-		if (allUsers.size() > 0) {
-			// suppression des utilisateurs non actif
-			for (int j = 0; j < allUsers.size(); j++) {
-				if (allUsers.get(j).nbCritical() == 0
-						&& allUsers.get(j).nbNoteCritical() == 0
-						&& allUsers.get(j).nbNoteMovie() == 0) {
-					allUsers.remove(j);
-					j--;
-				}
-			}
-			// mise en place du top 10
-			if (allUsers.size() > 0) {
-				Collections.sort(allUsers, Collections.reverseOrder());
-				if (allUsers.size() > 10) {
-					for (int i = 0; i < 10; i++) {
-						topTen.add(allUsers.get(i));
-					}
-				} else {
-					topTen = allUsers;
-				}
-				render("Users/TopUsers.html", topTen);
-			}
-		}
-		render("Users/TopUsers.html");*/
+			render("Users/TopUsers.html");
+		;
+		/*
+		 * List<User> allUsers = User.findAll(); List<User> topTen = new
+		 * ArrayList<User>();
+		 * 
+		 * if (allUsers.size() > 0) { // suppression des utilisateurs non actif
+		 * for (int j = 0; j < allUsers.size(); j++) { if
+		 * (allUsers.get(j).nbCritical() == 0 &&
+		 * allUsers.get(j).nbNoteCritical() == 0 &&
+		 * allUsers.get(j).nbNoteMovie() == 0) { allUsers.remove(j); j--; } } //
+		 * mise en place du top 10 if (allUsers.size() > 0) {
+		 * Collections.sort(allUsers, Collections.reverseOrder()); if
+		 * (allUsers.size() > 10) { for (int i = 0; i < 10; i++) {
+		 * topTen.add(allUsers.get(i)); } } else { topTen = allUsers; }
+		 * render("Users/TopUsers.html", topTen); } }
+		 * render("Users/TopUsers.html");
+		 */
 	}
 
 	// Affiche les 10 critiques les plus populaire
 	public static void topCritiques() {
 		List<Critical> topTen = Critical.getTopTen();
-		if(topTen != null)
+		if (topTen != null)
 			render("Criticals/TopCriticals.html", topTen);
 		else
 			render("Criticals/TopCriticals.html");
-		/*List<Critical> allCriticals = Critical.findAll();
-		List<Critical> topTen = new ArrayList<Critical>();
-
-		if (allCriticals.size() > 0) {
-			// suppression des films non notés
-			for (int j = 0; j < allCriticals.size(); j++) {
-				if (allCriticals.get(j).moyenneNote() == 21) {
-					allCriticals.remove(j);
-					j--;
-				}
-			}
-			// mise en place du top 10
-			if (allCriticals.size() > 0) {
-				Collections.sort(allCriticals, Collections.reverseOrder());
-				if (allCriticals.size() > 10) {
-					for (int i = 0; i < 10; i++) {
-						topTen.add(allCriticals.get(i));
-					}
-				} else {
-					topTen = allCriticals;
-				}
-				render("Criticals/TopCriticals.html", topTen);
-			}
-		}
-		render("Criticals/TopCriticals.html");*/
+		/*
+		 * List<Critical> allCriticals = Critical.findAll(); List<Critical>
+		 * topTen = new ArrayList<Critical>();
+		 * 
+		 * if (allCriticals.size() > 0) { // suppression des films non notés for
+		 * (int j = 0; j < allCriticals.size(); j++) { if
+		 * (allCriticals.get(j).moyenneNote() == 21) { allCriticals.remove(j);
+		 * j--; } } // mise en place du top 10 if (allCriticals.size() > 0) {
+		 * Collections.sort(allCriticals, Collections.reverseOrder()); if
+		 * (allCriticals.size() > 10) { for (int i = 0; i < 10; i++) {
+		 * topTen.add(allCriticals.get(i)); } } else { topTen = allCriticals; }
+		 * render("Criticals/TopCriticals.html", topTen); } }
+		 * render("Criticals/TopCriticals.html");
+		 */
 	}
 
 	public static void filmsAffiche() {
@@ -212,22 +180,32 @@ public class Application extends Controller {
 			Document doc = Jsoup.connect(
 					"http://www.allocine.fr/film/alaffiche.html").get();
 
-			Element element = doc.getElementsByClass("colcontent").first();
-			Elements elements = element.getElementsByClass("mainzone");
+			Element element = doc.getElementById("col_main");
+			Elements elements = element.getElementsByClass("data_box");
 
 			for (int i = 0; i < elements.size(); i++) {
 				String image = elements.get(i).select("img").first()
 						.absUrl("src");
-				String title = elements.get(i).getElementsByClass("contenzone")
+				
+				//System.out.println(elements.get(i).html());
+				String title = elements.get(i)
+						.select("div.content.j_entity_container")
 						.first().select("a").first().text();
 				map.put(title, image);
 
 				String director = elements.get(i)
-						.getElementsByClass("contenzone").first().select("p")
-						.get(1).select("a").first().text().split(",")[0];
-				String actor = elements.get(i).getElementsByClass("contenzone")
-						.first().select("p").get(2).select("a").first().text()
-						.split(",")[0];
+						.select("div.content.j_entity_container")
+						.first()
+						.select("table.data_box_table.margin_10b")
+						.first().select("tr").get(1).select("td").first()
+						.select("a").first().text().split(",")[0];
+				
+				String actor = elements.get(i)
+						.select("div.content.j_entity_container")
+						.first()
+						.select("table.data_box_table.margin_10b")
+						.first().select("tr").get(2).select("td").first()
+						.select("span").first().text().split(",")[0];
 				String linkFilm = elements.get(i).select("a").first()
 						.absUrl("href");
 				MovieTemp.AddMovieFromAlloCine(title, director, actor,
@@ -241,7 +219,7 @@ public class Application extends Controller {
 	}
 
 	public static void listMovies(final String term) {
-		
+
 		final List<Movie> response = new ArrayList<Movie>();
 		for (Movie movie : moviesLocations()) {
 			if (movie.Title.toLowerCase().startsWith(term.toLowerCase())) {
@@ -253,29 +231,35 @@ public class Application extends Controller {
 		}
 		renderJSON(response);
 	}
-	
+
 	public static ArrayList<Movie> moviesLocations() {
 		return (ArrayList) Movie.findAll();
 	}
-	
+
 	public static String loadCriticals(int last, long idMovie) {
-		
+
 		String critiques = "<br />";
 		List<Critical> lst;
 		Movie movie = Movie.findById(idMovie);
-		
+
 		if (session.contains("username")) {
 			User me = User.find("byEmail", session.get("username")).first();
 			lst = Critical.criticalsload(me, movie, last);
 		} else {
 			lst = Critical.criticalsload(movie, last);
 		}
-		
+
 		String dateEng = lst.get(0).Date.toString().split(" ")[0];
 		String[] tabDate = dateEng.split("-");
-		String dateFr = tabDate[2]+"/"+tabDate[1]+"/"+tabDate[0];
-		for(int i=0; i<lst.size(); i++){
-			critiques += "<div class=\"criticals\" id=\""+lst.get(i).id+"\"> <a href=\"/showCritical/"+lst.get(i).id+"\"> "+lst.get(i).Title+"</a> <span class=\"critical-author\"> Posté par "+lst.get(i).User.Firstname+" "+lst.get(i).User.Name+", </span> <span class=\"critical-date\">le "+dateFr+"</span> </div>";
+		String dateFr = tabDate[2] + "/" + tabDate[1] + "/" + tabDate[0];
+		for (int i = 0; i < lst.size(); i++) {
+			critiques += "<div class=\"criticals\" id=\"" + lst.get(i).id
+					+ "\"> <a href=\"/showCritical/" + lst.get(i).id + "\"> "
+					+ lst.get(i).Title
+					+ "</a> <span class=\"critical-author\"> Posté par "
+					+ lst.get(i).User.Firstname + " " + lst.get(i).User.Name
+					+ ", </span> <span class=\"critical-date\">le " + dateFr
+					+ "</span> </div>";
 		}
 		return critiques;
 	}

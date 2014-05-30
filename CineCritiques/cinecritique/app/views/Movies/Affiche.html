@@ -8,8 +8,5 @@
 	<h1> Films à l'affiche</h1><br />
 	#{list items:map.keySet(), as:'key'}
 		<span class="affiche"><a href="@{Application.search(key)}"><img src="${map.get(key)}" title="${key}"/></a></span>
-		#{if key_index == 5}
-             <br /><br />
-		#{/if} 
 	#{/list}
 #{/else}
